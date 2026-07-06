@@ -1,0 +1,523 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+/* ────────────────────────────────────────────────────────────────
+   Design tokens — mirrors :root vars in source LandingPage.css
+   Available as utilities: bg-bg, text-purple, font-display, xs:...
+   ──────────────────────────────────────────────────────────────── */
+@theme {
+  --color-bg: #050505;
+  --color-bg-2: #080808;
+  --color-bg-3: #141414;
+  --color-bg-4: #1e1e1e;
+  --color-border: rgb(255 255 255 / 0.08);
+  --color-border-2: rgb(255 255 255 / 0.16);
+
+  --color-text: #d8d8d8;
+  --color-muted: #8a8a8a;
+
+  --color-purple: #9080d4;
+  --color-blue: #7295bf;
+  --color-orange: #bd825a;
+  --color-red-brick: #c25e6c;
+  --color-green-sage: #5e9974;
+  --color-amber: #b8975e;
+
+  --font-display: var(--font-raleway), system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-label: var(--font-rajdhani), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains-mono), ui-monospace, monospace;
+  --font-body: var(--font-dm-sans), system-ui, sans-serif;
+
+  --breakpoint-xs: 30rem;
+
+  /* Animation tokens — utility names like animate-orb-drift */
+  --animate-orb-drift: orb-drift 18s ease-in-out infinite;
+  --animate-orb-inner: orb-inner 9s ease-in-out infinite alternate;
+  --animate-pulse-ring: pulse-ring 1.8s ease-out infinite;
+  --animate-pulse-ring-green: pulse-ring-green 2s ease-out infinite;
+  --animate-hv-in: hv-in 0.6s ease-out both;
+  --animate-ticker: ticker-scroll 40s linear infinite;
+  --animate-owasp-cell-in: owasp-cell-in 0.5s ease-out both;
+  --animate-hv-float-a: hv-float-a 6s ease-in-out infinite;
+  --animate-hv-float-b: hv-float-b 7s ease-in-out infinite;
+  --animate-hv-ring-pulse: hv-ring-pulse 2.4s ease-out infinite;
+  --animate-hv-flow: hv-flow 2s linear infinite;
+  --animate-hv-threat-blink: hv-threat-blink 1.6s ease-in-out infinite;
+  --animate-blog-card-in: blog-card-in 0.5s ease-out both;
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Keyframes (13 total) — ported verbatim from source
+   ──────────────────────────────────────────────────────────────── */
+@keyframes orb-drift {
+  0%   { transform: translate(0,0) scale(1); }
+  20%  { transform: translate(120px,80px) scale(1.08); }
+  40%  { transform: translate(-60px,160px) scale(0.94); }
+  60%  { transform: translate(180px,260px) scale(1.05); }
+  80%  { transform: translate(-40px,120px) scale(1.02); }
+  100% { transform: translate(0,0) scale(1); }
+}
+@keyframes orb-inner {
+  0%   { opacity: 0.6; transform: scale(0.9); }
+  100% { opacity: 1;   transform: scale(1.2); }
+}
+@keyframes pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(194,94,108,0.7); }
+  70%  { box-shadow: 0 0 0 7px rgba(194,94,108,0); }
+  100% { box-shadow: 0 0 0 0 rgba(194,94,108,0); }
+}
+@keyframes pulse-ring-green {
+  0%   { box-shadow: 0 0 0 0 rgba(94,153,116,0.6); }
+  70%  { box-shadow: 0 0 0 8px rgba(94,153,116,0); }
+  100% { box-shadow: 0 0 0 0 rgba(94,153,116,0); }
+}
+@keyframes hv-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes ticker-scroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+@keyframes owasp-cell-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes hv-float-a {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes hv-float-b {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(10px); }
+}
+@keyframes hv-ring-pulse {
+  0%   { transform: scale(1); opacity: 0.5; }
+  80%  { opacity: 0.05; }
+  100% { transform: scale(3.5); opacity: 0; }
+}
+@keyframes hv-flow {
+  0%   { stroke-dashoffset: 28; }
+  100% { stroke-dashoffset: 0; }
+}
+@keyframes hv-threat-blink {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+@keyframes blog-card-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Base layer — minimal global rules that Tailwind preflight doesn't
+   already cover, ported from source index.css + LandingPage.css.
+   ──────────────────────────────────────────────────────────────── */
+@layer base {
+  /* No global `scroll-behavior: smooth` — it made Next's client-side
+     route change animate the scroll-to-top, so navigating from a
+     scrolled-down landing page to /blog looked like the page hadn't
+     scrolled yet. The landing page still gets smooth hash-anchor
+     scrolling from landing-page.css (its own scoped `html {}` rule). */
+  body {
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    /* `overflow-x: clip` (not `hidden`) so descendant `position: sticky`
+       still works — `hidden` implicitly creates a y-scroll container and
+       breaks sticky. `clip` gives the same no-horizontal-scrollbar effect
+       without becoming a scroll container. */
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+/* ────────────────────────────────────────────────────────────────
+   Components layer — the one exception to "pure Tailwind": these
+   5 syntax-highlight classes are referenced from a raw HTML string
+   rendered via dangerouslySetInnerHTML (SDK code sample on landing
+   page), which JSX-level utility rewrites can't reach.
+   ──────────────────────────────────────────────────────────────── */
+@layer components {
+  .ck { color: #569cd6; }  /* keyword */
+  .cd { color: #4ec9b0; }  /* type */
+  .cs { color: #ce9178; }  /* string */
+  .cc { color: #6a9955; }  /* comment */
+  .cf { color: #dcdcaa; }  /* function */
+
+  /* Reveal-on-scroll: elements start hidden, .in flips them visible.
+     Driven by the IntersectionObserver in LandingPage.jsx. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+  .reveal.in {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Legal pages (Privacy / Terms) — descendant typography for content
+     nested inside <section className="legal-section">. Rewriting every
+     <h2>/<p>/<a>/<li>/<code>/<table> inline would require hundreds of
+     edits across two long pages; keeping these as a components-layer
+     block preserves source JSX verbatim while sourcing all colors from
+     the shared theme tokens. */
+  .legal-section {
+    margin-top: 40px;
+    scroll-margin-top: 80px;
+  }
+  .legal-section h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #f1f1f1;
+    margin: 0 0 16px;
+  }
+  .legal-section h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #f1f1f1;
+    margin: 24px 0 10px;
+  }
+  .legal-section p {
+    font-size: 15px;
+    line-height: 1.75;
+    color: var(--color-text);
+    margin: 0 0 14px;
+  }
+  .legal-section p:last-child { margin-bottom: 0; }
+  .legal-section a {
+    color: var(--color-purple);
+    text-decoration: underline;
+    text-decoration-color: rgb(144 128 212 / 0.4);
+    text-underline-offset: 2px;
+    transition: text-decoration-color 120ms ease;
+  }
+  .legal-section a:hover { text-decoration-color: var(--color-purple); }
+  .legal-section strong { color: #f1f1f1; font-weight: 600; }
+  .legal-section ul {
+    margin: 4px 0 14px;
+    padding-left: 22px;
+    list-style: disc outside;
+  }
+  .legal-section ol {
+    margin: 4px 0 14px;
+    padding-left: 22px;
+    list-style: decimal outside;
+  }
+  .legal-section li {
+    font-size: 15px;
+    line-height: 1.7;
+    margin: 4px 0;
+    padding-left: 4px;
+  }
+  .legal-section li::marker { color: var(--color-purple); }
+  .legal-section code {
+    background: #0f0f0f;
+    color: #f1f1f1;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    border: 1px solid var(--color-border);
+  }
+  .legal-table-wrap {
+    overflow-x: auto;
+    margin: 16px 0 18px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+  .legal-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+  .legal-table th,
+  .legal-table td {
+    text-align: left;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+  .legal-table tr:last-child td { border-bottom: none; }
+  .legal-table th {
+    background: #0f0f0f;
+    color: #f1f1f1;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.02em;
+  }
+  .legal-callout {
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-purple);
+    padding: 14px 18px;
+    border-radius: 6px;
+    margin: 18px 0;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .legal-contact-card {
+    margin-top: 24px;
+    padding: 20px 22px;
+    background: var(--color-bg-2);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+  }
+  .legal-contact-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #f1f1f1;
+    margin: 0 0 6px;
+  }
+  .legal-contact-line {
+    font-size: 14px;
+    color: var(--color-text);
+    margin: 2px 0;
+    line-height: 1.6;
+  }
+  .legal-contact-card a { color: var(--color-purple); }
+
+  /* Blog post rendered-markdown container. Same pragmatic pattern as
+     .legal-section — descendant styling of raw HTML produced by
+     `marked` + DOMPurify can't be reached with JSX-level utility
+     rewrites without significant restructuring. */
+  .blog-post-content {
+    font-size: 18px;
+    line-height: 1.75;
+    color: #a3a3a3;
+  }
+  .blog-post-content h1,
+  .blog-post-content h2,
+  .blog-post-content h3,
+  .blog-post-content h4 {
+    color: #f1f1f1;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    scroll-margin-top: 80px;
+  }
+  .blog-post-content h1 {
+    font-size: 32px;
+    margin: 56px 0 20px;
+    padding-top: 61px;
+    border-top: 1px solid var(--color-border-2);
+  }
+  .blog-post-content h2 { font-size: 27px; margin: 48px 0 16px; }
+  .blog-post-content h3 { font-size: 22px; margin: 40px 0 14px; }
+  .blog-post-content h4 { font-size: 19px; margin: 32px 0 12px; }
+  .blog-post-content p { margin: 0 0 18px; }
+  .blog-post-content a {
+    color: var(--color-purple);
+    text-decoration: underline;
+    text-decoration-color: rgb(144 128 212 / 0.4);
+    text-underline-offset: 2px;
+  }
+  .blog-post-content a:hover { text-decoration-color: var(--color-purple); }
+  .blog-post-content strong { color: #f1f1f1; font-weight: 600; }
+  .blog-post-content ul { list-style: disc outside; margin: 0 0 18px; padding-left: 22px; }
+  .blog-post-content ol { list-style: decimal outside; margin: 0 0 18px; padding-left: 22px; }
+  .blog-post-content li { margin: 6px 0; }
+  .blog-post-content li::marker { color: var(--color-purple); }
+  .blog-post-content li:has(> input[type="checkbox"]) { list-style: none; }
+  .blog-post-content li input[type="checkbox"] {
+    margin-right: 8px;
+    accent-color: var(--color-purple);
+    vertical-align: middle;
+  }
+  .blog-post-content del {
+    color: var(--color-muted);
+    text-decoration: line-through;
+  }
+  .blog-post-content blockquote {
+    border-left: 3px solid var(--color-purple);
+    padding: 4px 0 4px 18px;
+    margin: 24px 0;
+    color: var(--color-muted);
+    font-style: italic;
+  }
+  .blog-post-content img {
+    max-width: 100%;
+    border-radius: 2px;
+    border: 1px solid var(--color-border);
+    margin: 24px 0;
+    display: block;
+  }
+  .blog-post-content hr {
+    border: none;
+    border-top: 1px solid var(--color-border);
+    margin: 36px 0;
+  }
+  .blog-post-content code {
+    background: var(--color-bg-3);
+    color: #f1f1f1;
+    padding: 1px 6px;
+    border-radius: 2px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    border: 1px solid var(--color-border);
+  }
+  .blog-post-content pre {
+    background: var(--color-bg-3);
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    padding: 16px;
+    overflow-x: auto;
+    margin: 20px 0;
+  }
+  .blog-post-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 13px;
+  }
+  .blog-post-content table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    margin: 24px 0;
+  }
+  .blog-post-content th,
+  .blog-post-content td {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: top;
+  }
+  .blog-post-content th {
+    background: var(--color-bg-3);
+    color: #f1f1f1;
+    font-weight: 600;
+  }
+
+  /* Site footer — source .footer-new design.
+     Kept in the components layer so /blog, /legal, and / all render
+     the identical footer without depending on landing-page.css. */
+  .footer-new {
+    position: relative;
+    z-index: 1;
+    background: #0a0a0a;
+    border-top: 1px solid var(--color-border);
+    padding: 0;
+    display: block;
+  }
+  .footer-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 120px;
+    padding: 56px 72px 48px;
+    max-width: 1440px;
+    margin: 0 auto;
+  }
+  .footer-brand-col {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 380px;
+  }
+  .footer-logo {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+    text-decoration: none;
+    letter-spacing: -0.01em;
+    flex-shrink: 0;
+  }
+  .footer-logo .logo-mark {
+    width: 26px;
+    height: 26px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .footer-tagline {
+    font-size: 12.5px;
+    color: var(--color-muted);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .footer-cta {
+    display: inline-flex;
+    align-items: center;
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-purple);
+    text-decoration: none;
+    padding: 8px 0;
+    border-bottom: 1px solid rgb(144 128 212 / 0.3);
+    width: fit-content;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .footer-cta:hover {
+    color: #a594e0;
+    border-color: rgb(144 128 212 / 0.6);
+  }
+  .footer-nav-cols {
+    display: flex;
+    gap: 48px;
+  }
+  .footer-nav-col {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-nav-hdr {
+    font-family: var(--font-label);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: 8px;
+  }
+  .footer-nav-link {
+    font-size: 12.5px;
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color 0.15s;
+    line-height: 1.5;
+  }
+  .footer-nav-link:hover { color: var(--color-text); }
+  .footer-bottom {
+    border-top: 1px solid var(--color-border);
+    padding: 20px 72px;
+    max-width: 1440px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .footer-copy {
+    font-size: 14px;
+    color: var(--color-muted);
+  }
+  @media (max-width: 960px) {
+    .footer-top {
+      flex-direction: column;
+      gap: 40px;
+      padding: 40px 24px 32px;
+    }
+    .footer-bottom { padding: 16px 24px; }
+  }
+  @media (max-width: 640px) {
+    .footer-nav-cols { flex-direction: column; gap: 32px; }
+    .footer-top { padding: 32px 16px 28px; }
+    .footer-bottom { padding: 14px 16px; }
+  }
+}

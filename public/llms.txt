@@ -1,0 +1,33 @@
+# DapplePot
+
+> DapplePot is an AI agent security and monitoring platform. It provides runtime security, session replay, and real-time threat detection for AI agent fleets — covering the OWASP LLM Top 10 and ASI Top 10.
+
+DapplePot monitors, controls, and protects AI agents across their entire lifecycle: runtime interception, post-session replay, and cross-session pattern analysis. It surfaces prompt injection attacks, data leakage, excessive agency, and other AI-specific threats as they happen.
+
+## Platform capabilities
+
+- **Monitor**: Full session replay and real-time visibility into every AI agent action, tool call, and LLM exchange
+- **Control**: Inline security checks that can sanitize content, block calls, or terminate sessions on policy violations
+- **Protect**: Covers OWASP LLM Top 10 and ASI Top 10 threat categories out of the box
+
+## Who it is for
+
+- **Security teams**: Detect and respond to AI agent threats across the fleet
+- **AI/ML teams**: Observe agent behaviour, debug sessions, and validate safety in production
+- **Audit & compliance teams**: Session logs and policy enforcement for regulatory requirements
+
+## Developer SDK
+
+The DapplePot Python SDK instruments AI agents built with Anthropic, OpenAI, LangChain, or LangGraph. Full documentation at https://docs.dapplepot.com.
+
+Install: `pip install dapplepot-sdk`
+
+## Blog
+
+Research, insights, and product updates on AI agent security, runtime detection, and OWASP Agentic AI (ASI) coverage. Index at https://www.dapplepot.com/blog.
+
+## Links
+
+- Website: https://www.dapplepot.com
+- Blog: https://www.dapplepot.com/blog
+- Developer docs: https://docs.dapplepot.com
