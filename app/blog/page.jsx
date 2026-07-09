@@ -11,12 +11,12 @@ const PAGE_SIZE = 9;
 export const revalidate = 300;
 
 export const metadata = {
-  title: "Blog — DapplePot",
+  title: "Blog",
   description:
     "Research, insights, and product updates on AI agent security, runtime detection, and OWASP Agentic AI coverage from the DapplePot team.",
   alternates: { canonical: `${SITE_URL}/blog` },
   openGraph: {
-    title: "Blog — DapplePot",
+    title: "Blog | DapplePot",
     description:
       "Research, insights, and product updates on AI agent security, runtime detection, and OWASP Agentic AI coverage.",
     url: `${SITE_URL}/blog`,

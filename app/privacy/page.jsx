@@ -4,12 +4,12 @@ import { SITE_URL } from "@/lib/constants";
 const UPDATED = "June 29, 2026";
 
 export const metadata = {
-  title: "Privacy Policy — DapplePot",
+  title: "Privacy Policy",
   description:
     "How DapplePot handles personal data collected via the website, dashboard, SDK, and API. Sub-processors, retention, and your rights.",
   alternates: { canonical: `${SITE_URL}/privacy` },
   openGraph: {
-    title: "Privacy Policy — DapplePot",
+    title: "Privacy Policy | DapplePot",
     description:
       "How DapplePot handles personal data collected via the website, dashboard, SDK, and API.",
     url: `${SITE_URL}/privacy`,

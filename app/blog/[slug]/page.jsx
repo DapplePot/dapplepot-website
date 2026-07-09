@@ -39,14 +39,14 @@ export async function generateMetadata({ params }) {
     /* fall through */
   }
   if (!blog) {
-    return { title: "Post not found — DapplePot Blog" };
+    return { title: { absolute: "Post not found | DapplePot Blog" } };
   }
   const url = `${SITE_URL}/blog/${blog.slug}`;
   const title = blog.metaTitle || blog.title;
   const description = blog.metaDescription || blog.excerpt || "";
   const image = blog.bannerImageUrl;
   return {
-    title: `${title} — DapplePot Blog`,
+    title: { absolute: `${title} | DapplePot Blog` },
     description,
     alternates: { canonical: url },
     openGraph: {

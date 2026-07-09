@@ -40,8 +40,8 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "DapplePot — AI Agent Security & Monitoring Platform",
-    template: "%s — DapplePot",
+    default: "DapplePot | AI Agent Security & Monitoring Platform",
+    template: "%s | DapplePot",
   },
   description:
     "Monitor, control, and protect your AI agent fleet in real time. DapplePot provides runtime security, session replay, and threat detection — covering the OWASP LLM Top 10 and ASI Top 10.",
@@ -54,7 +54,7 @@ export const metadata = {
   openGraph: {
     type: "website",
     siteName: "DapplePot",
-    title: "DapplePot — AI Agent Security & Monitoring Platform",
+    title: "DapplePot | AI Agent Security & Monitoring Platform",
     description:
       "Monitor, control, and protect your AI agent fleet in real time. Runtime security, session replay, and threat detection for AI agents.",
     url: SITE_URL,
@@ -62,7 +62,7 @@ export const metadata = {
   },
   twitter: {
     card: "summary",
-    title: "DapplePot — AI Agent Security & Monitoring Platform",
+    title: "DapplePot | AI Agent Security & Monitoring Platform",
     description:
       "Monitor, control, and protect your AI agent fleet in real time. Runtime security, session replay, and threat detection for AI agents.",
     images: ["/dapplePotLogo.png"],

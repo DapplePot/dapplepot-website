@@ -4,12 +4,12 @@ import { SITE_URL } from "@/lib/constants";
 const UPDATED = "June 29, 2026";
 
 export const metadata = {
-  title: "Terms of Service — DapplePot",
+  title: "Terms of Service",
   description:
     "Terms governing your use of the DapplePot AI agent security platform, SDK, and API.",
   alternates: { canonical: `${SITE_URL}/terms` },
   openGraph: {
-    title: "Terms of Service — DapplePot",
+    title: "Terms of Service | DapplePot",
     description:
       "Terms governing your use of the DapplePot AI agent security platform, SDK, and API.",
     url: `${SITE_URL}/terms`,
